@@ -2,14 +2,16 @@ module github.com/eladleev/schema-registry-statistics
 
 go 1.19
 
-require github.com/Shopify/sarama v1.37.2
+require (
+	github.com/Shopify/sarama v1.37.2
+	github.com/fatih/color v1.13.0
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.3.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
 	github.com/eapache/queue v1.1.0 // indirect
-	github.com/fatih/color v1.13.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
