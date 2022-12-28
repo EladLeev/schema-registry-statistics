@@ -37,7 +37,7 @@ func DumpStats(stat ResultStats, path string) {
 	if err != nil {
 		log.Printf("Error: %s", err.Error())
 	} else {
-		err := os.WriteFile(path, j, 0644)
+		err := os.WriteFile(path, j, 0600)
 		if err != nil {
 			log.Fatalf("Error: %s", err.Error())
 		}
