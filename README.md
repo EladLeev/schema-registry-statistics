@@ -36,20 +36,21 @@ For further offsets analysis, you can store the results into a JSON file:
 ```
 
 ## Flags
-| Name          | Description                                         | Require | Type     | default             |
-| ------------- | --------------------------------------------------- | ------- | -------- | ------------------- |
-| `--bootstrap` | The Kafka bootstrap servers.                        | `V`     | `string` | "localhost:9092"    |
-| `--topic`     | The topic name to consume                           | `V`     | `string` | ""                  |
-| `--version`   | The Kafka client version to be used.                |         | `string` | "2.1.1"             |
-| `--group`     | The consumer group name.                            |         | `string` | schema-stats        |
-| `--user`      | The Kafka username for authentication               |         | `string` | ""                  |
-| `--password`  | The Kafka password for authentication               |         | `string` | ""                  |
-| `--tls`       | Use TLS communication.                              |         | `bool`   | `false`             |
-| `--store`     | Store results into a file.                          |         | `bool`   | `false`             |
-| `--path`      | If `store` flag is set, the path to store the file. |         | `string` | "/tmp/results.json" |
-| `--oldest`    | Consume from oldest offset.                         |         | `bool`   | `true`              |
-| `--limit`     | Limit consumer to X messages, if different than 0.  |         | `int`    | 0                   |
-| `--verbose`   | Raise consumer log level.                           |         | `bool`   | `false`             |
+| Name          | Description                                                                 | Require    | Type     | default             |
+| ------------- | --------------------------------------------------------------------------- | ---------- | -------- | ------------------- |
+| `--bootstrap` | The Kafka bootstrap servers.                                                | `V`        | `string` | "localhost:9092"    |
+| `--topic`     | The topic name to consume.                                                  | `V`        | `string` | ""                  |
+| `--version`   | The Kafka client version to be used.                                        |            | `string` | "2.1.1"             |
+| `--group`     | The consumer group name.                                                    |            | `string` | schema-stats        |
+| `--user`      | The Kafka username for authentication.                                      |            | `string` | ""                  |
+| `--password`  | The Kafka password for authentication.                                      |            | `string` | ""                  |
+| `--tls`       | Use TLS communication.                                                      |            | `bool`   | `false`             |
+| `--cert`      | When TLS communication is enabled, specify the path for the CA certificate. | when `tls` | `string` | ""                  |
+| `--store`     | Store results into a file.                                                  |            | `bool`   | `false`             |
+| `--path`      | If `store` flag is set, the path to store the file.                         |            | `string` | "/tmp/results.json" |
+| `--oldest`    | Consume from oldest offset.                                                 |            | `bool`   | `true`              |
+| `--limit`     | Limit consumer to X messages, if different than 0.                          |            | `int`    | 0                   |
+| `--verbose`   | Raise consumer log level.                                                   |            | `bool`   | `false`             |
 
 ## Usage
 ```bash

@@ -1,8 +1,27 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
+	"os"
+	"path/filepath"
+
 	"github.com/Shopify/sarama"
 )
+
+func loadKey(caFile string) *tls.Config {
+	caCert, err := os.ReadFile(filepath.Clean(caFile))
+	if err != nil {
+		panic(err)
+	}
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+	tlsConfig := &tls.Config{
+		MinVersion: tls.VersionTLS12,
+		RootCAs:    caCertPool,
+	}
+	return tlsConfig
+}
 
 func setConfig(kafkaVersion sarama.KafkaVersion, cfg appConfig) *sarama.Config {
 	config := sarama.NewConfig()
@@ -10,6 +29,8 @@ func setConfig(kafkaVersion sarama.KafkaVersion, cfg appConfig) *sarama.Config {
 
 	if cfg.tls {
 		config.Net.TLS.Enable = true
+		tlsCfg := loadKey(cfg.caCert)
+		config.Net.TLS.Config = tlsCfg
 	}
 
 	if cfg.user != "" && cfg.password != "" {
