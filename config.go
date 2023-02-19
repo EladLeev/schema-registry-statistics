@@ -9,7 +9,7 @@ import (
 	"github.com/Shopify/sarama"
 )
 
-func loadKey(caFile string) *tls.Config {
+func loadCert(caFile string) *tls.Config {
 	caCert, err := os.ReadFile(filepath.Clean(caFile))
 	if err != nil {
 		panic(err)
@@ -29,7 +29,7 @@ func setConfig(kafkaVersion sarama.KafkaVersion, cfg appConfig) *sarama.Config {
 
 	if cfg.tls {
 		config.Net.TLS.Enable = true
-		tlsCfg := loadKey(cfg.caCert)
+		tlsCfg := loadCert(cfg.caCert)
 		config.Net.TLS.Config = tlsCfg
 	}
 

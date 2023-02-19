@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestLoadKey(t *testing.T) {
+func TestLoadCert(t *testing.T) {
 	caCertFile, err := os.CreateTemp("", "cacert*.pem")
 	if err != nil {
 		t.Fatalf("failed to create temporary file: %s", err)
@@ -31,7 +31,7 @@ X/0CIQDKuZwuAQzS1aA90xSgbbVi/TuV7Yj4l4uV7lRGkW8HvA==
 		t.Fatalf("failed to write to temporary file: %s", err)
 	}
 
-	tlsConfig := loadKey(caCertFile.Name())
+	tlsConfig := loadCert(caCertFile.Name())
 
 	if tlsConfig.RootCAs == nil {
 		t.Error("RootCAs is nil")
