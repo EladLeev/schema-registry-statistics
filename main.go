@@ -12,6 +12,7 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/eladleev/schema-registry-statistics/utils"
+	"github.com/fatih/color"
 )
 
 type Consumer struct {
@@ -91,15 +92,22 @@ func (consumer *Consumer) Setup(sarama.ConsumerGroupSession) error {
 func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 	consumedMessages := consumer.stats.StatMap["TOTAL"]
 	log.Printf("Total messages consumed: %v\n", consumedMessages)
-	for k, v := range consumer.stats.StatMap {
-		if k == "TOTAL" {
-			continue
-		} else {
-			utils.CalcPercentile(k, v, consumedMessages)
-		}
+	utils.BuildPercentileMap(consumer.stats.StatMap)
+
+	// Print results
+	for k, v := range utils.PercentileMap {
+		c := color.New(color.FgGreen, color.BgWhite)
+		c.Printf("Schema ID %v => %v%%\n", k, v)
 	}
+
+	// Dump stats to file
 	if consumer.config.store {
 		utils.DumpStats(consumer.stats, consumer.config.path)
+	}
+
+	// Build Charts
+	if true {
+		utils.GenChart()
 	}
 	return nil
 }

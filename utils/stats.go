@@ -7,19 +7,28 @@ import (
 	"math"
 	"os"
 	"sync"
-
-	"github.com/fatih/color"
 )
+
+var PercentileMap = map[string]float64{}
 
 type ResultStats struct {
 	StatMap     map[string]int
 	ResultStore map[uint32][]int
 }
 
-func CalcPercentile(k string, v, consumedMessages int) {
-	idPerc := math.Round((float64(v) / float64(consumedMessages) * 100))
-	c := color.New(color.FgGreen, color.BgWhite)
-	c.Printf("Schema ID %v => %v%%\n", k, idPerc)
+func calc(schema, total int) float64 {
+	return math.Round((float64(schema) / float64(total) * 100))
+}
+
+// BuildPercentileMap will calculate the percentiles for each schema
+func BuildPercentileMap(s map[string]int) {
+	for k, v := range s {
+		if k == "TOTAL" {
+			continue
+		} else {
+			PercentileMap[k] = calc(v, s["TOTAL"])
+		}
+	}
 }
 
 // AppendResult will map the results to a storeable map
