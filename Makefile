@@ -27,3 +27,12 @@ safe:
 	go vet
 	go test -race .
 	go build -race .
+
+test_race:
+	go run -race . --bootstrap "localhost:9092" \
+	--topic "payments-topic" \
+	--group "TEST_GROUP" \
+	--tls --cert "ca.pem" \
+	--user "USERNAME" \
+	--password "PASSWORD" \
+	--oldest --verbose
