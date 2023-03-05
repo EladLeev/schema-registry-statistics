@@ -2,19 +2,7 @@ import random
 from confluent_kafka import avro
 from confluent_kafka.avro import AvroProducer
 
-schema_v1 = """
-{
- "namespace": "io.confluent.examples.clients.basicavro",
- "type": "record",
- "name": "Payment",
- "fields": [
-     {"name": "id", "type": "string"},
-     {"name": "amount", "type": "double"}
- ]
-}
-"""
-
-schema_v2 = """
+schema = """
 {
  "namespace": "io.confluent.examples.clients.basicavro",
  "type": "record",
@@ -27,10 +15,15 @@ schema_v2 = """
 }
 """
 
-value_schema = avro.loads(schema_v2)
+value_schema = avro.loads(schema)
 
 producer_conf = {'bootstrap.servers': 'localhost:9092',
-                 'schema.registry.url': 'http://localhost:8081'}
+                 'schema.registry.url': 'https://USERNAME:PASSWORD@localhost:8081',
+                 'security.protocol': 'SASL_SSL',
+                 'sasl.mechanisms': 'SCRAM-SHA-256',
+                 'sasl.username': 'USERNAME',
+                 'sasl.password': 'PASSWORD',
+                 'ssl.ca.location': 'ca.pem'}
 
 avroProducer = AvroProducer(producer_conf, default_value_schema=value_schema)
 

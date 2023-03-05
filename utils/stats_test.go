@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+	"sync"
 	"testing"
 )
 
@@ -56,6 +57,7 @@ func TestDumpStats(t *testing.T) {
 }
 
 func TestAppendResult(t *testing.T) {
+	l := sync.RWMutex{}
 	testCases := []struct {
 		name       string
 		stat       ResultStats
@@ -111,7 +113,7 @@ func TestAppendResult(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			AppendResult(tc.stat, tc.offset, tc.schemaId)
+			AppendResult(tc.stat, tc.offset, tc.schemaId, &l)
 			if !reflect.DeepEqual(tc.stat, tc.wantResult) {
 				t.Errorf("got %+v, want %+v", tc.stat, tc.wantResult)
 			}
