@@ -6,6 +6,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"sync"
 
 	"github.com/fatih/color"
 )
@@ -21,13 +22,17 @@ func CalcPercentile(k string, v, consumedMessages int) {
 	c.Printf("Schema ID %v => %v%%\n", k, idPerc)
 }
 
-// appendResult will map the results to a storeable map
-func AppendResult(stat ResultStats, offset int64, schemaId uint32) {
+// AppendResult will map the results to a storeable map
+func AppendResult(stat ResultStats, offset int64, schemaId uint32, lock *sync.RWMutex) {
+	lock.Lock()
+	defer lock.Unlock()
 	stat.ResultStore[schemaId] = append(stat.ResultStore[schemaId], int(offset))
 }
 
-// calcStat keep on track the stats
-func CalcStat(stat ResultStats, schemaId uint32) {
+// CalcStat keep on track the stats
+func CalcStat(stat ResultStats, schemaId uint32, lock *sync.RWMutex) {
+	lock.Lock()
+	defer lock.Unlock()
 	stat.StatMap[fmt.Sprint(schemaId)] += 1
 	stat.StatMap["TOTAL"] += 1
 }

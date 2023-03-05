@@ -23,5 +23,7 @@ dep:
 tidy:
 	go mod tidy
 
-vet:
+safe:
 	go vet
+	go test -race .
+	go build -race .

@@ -15,9 +15,10 @@ import (
 )
 
 type Consumer struct {
-	ready  chan bool
-	stats  utils.ResultStats
-	config appConfig
+	ready        chan bool
+	stats        utils.ResultStats
+	config       appConfig
+	consumerLock sync.RWMutex
 }
 
 func main() {
@@ -38,7 +39,8 @@ func main() {
 			StatMap:     map[string]int{"TOTAL": 0},
 			ResultStore: map[uint32][]int{},
 		},
-		config: cfg,
+		config:       cfg,
+		consumerLock: sync.RWMutex{},
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -107,14 +109,15 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 		select {
 		case message := <-claim.Messages():
 			schemaId := binary.BigEndian.Uint32(message.Value[1:5])
-			utils.CalcStat(consumer.stats, schemaId)
-			if consumer.config.store { // build result for analysis
-				utils.AppendResult(consumer.stats, message.Offset, schemaId)
+			utils.CalcStat(consumer.stats, schemaId, &consumer.consumerLock)
+			if consumer.config.store { // lock map, and build result for analysis
+				utils.AppendResult(consumer.stats, message.Offset, schemaId, &consumer.consumerLock)
 			}
-			if consumer.stats.StatMap["TOTAL"]%100 == 0 { // I'm still living :)
+			consumer.consumerLock.RLock()
+			if consumer.stats.StatMap["TOTAL"]%100 == 0 { // I'm still alive :)
 				log.Printf("acked 100 messages\n")
 			}
-
+			consumer.consumerLock.RUnlock()
 			// ack
 			session.MarkMessage(message, "")
 
