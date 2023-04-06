@@ -18,7 +18,7 @@ type ResultStats struct {
 
 func CalcPercentile(k string, v, consumedMessages int) {
 	idPerc := math.Round((float64(v) / float64(consumedMessages) * 100))
-	c := color.New(color.FgGreen, color.BgWhite)
+	c := color.New(color.FgGreen)
 	c.Printf("Schema ID %v => %v%%\n", k, idPerc)
 }
 
@@ -33,6 +33,11 @@ func AppendResult(stat ResultStats, offset int64, schemaId uint32, lock *sync.RW
 func CalcStat(stat ResultStats, schemaId uint32, lock *sync.RWMutex) {
 	lock.Lock()
 	defer lock.Unlock()
+	// 4294967295 represents error
+	if schemaId == 4294967295 {
+		stat.StatMap["ERROR"] += 1
+		return
+	}
 	stat.StatMap[fmt.Sprint(schemaId)] += 1
 	stat.StatMap["TOTAL"] += 1
 }
