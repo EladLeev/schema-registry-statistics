@@ -22,9 +22,7 @@ schema_v2 = """
  "fields": [
      {"name": "id", "type": "string"},
      {"name": "amount", "type": "double"},
-     {"name": "name", "type": "string"},
-     {"name": "asd", "type": "string", "default": ""},
-     {"name": "asd2", "type": "string", "default": ""}
+     {"name": "name", "type": "string"}
  ]
 }
 """
@@ -40,7 +38,5 @@ for i in range(1, 20):
     avroProducer.produce(topic='payments-topic',
                          value={"id": "transact_%s" % i,
                                 "amount": random.uniform(10, 500),
-                                "name": "customer_%s" % i, 
-                                "asd": "asdasdasdasd",
-                                "asd2": "asdasdasdasd",})
+                                "name": "customer_%s" % i, })
 avroProducer.flush()
