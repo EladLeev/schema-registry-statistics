@@ -94,6 +94,8 @@ func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 	for k, v := range consumer.stats.StatMap {
 		if k == "TOTAL" {
 			continue
+		} else if k == "ERROR" {
+			defer log.Printf("Unable to decode schema in %v messages. They might be empty, or do not contains any schema.", v)
 		} else {
 			utils.CalcPercentile(k, v, consumedMessages)
 		}
@@ -108,6 +110,12 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	for {
 		select {
 		case message := <-claim.Messages():
+			if len(message.Value) < 5 {
+				log.Printf("error encoding message offset: %v\n", message.Offset)
+				// append error value, using 4294967295 as a dummy value (end of uint32)
+				utils.CalcStat(consumer.stats, 4294967295, &consumer.consumerLock)
+				break
+			}
 			schemaId := binary.BigEndian.Uint32(message.Value[1:5])
 			utils.CalcStat(consumer.stats, schemaId, &consumer.consumerLock)
 			if consumer.config.store { // lock map, and build result for analysis
