@@ -108,6 +108,10 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	for {
 		select {
 		case message := <-claim.Messages():
+			if len(message.Value) < 5 {
+				log.Printf("error encoding message offset: %v\n", message.Offset)
+				return nil
+			}
 			schemaId := binary.BigEndian.Uint32(message.Value[1:5])
 			utils.CalcStat(consumer.stats, schemaId, &consumer.consumerLock)
 			if consumer.config.store { // lock map, and build result for analysis
