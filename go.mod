@@ -5,6 +5,12 @@ go 1.19
 require (
 	github.com/Shopify/sarama v1.37.2
 	github.com/fatih/color v1.13.0
+	gotest.tools v2.2.0+incompatible
+)
+
+require (
+	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 )
 
 require (
@@ -12,6 +18,7 @@ require (
 	github.com/eapache/go-resiliency v1.3.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
 	github.com/eapache/queue v1.1.0 // indirect
+	github.com/go-echarts/go-echarts/v2 v2.2.6
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
