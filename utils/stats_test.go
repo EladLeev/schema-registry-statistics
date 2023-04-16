@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"io/ioutil"
 	"os"
 	"reflect"
 	"sync"
@@ -41,7 +40,7 @@ func TestDumpStats(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			DumpStats(tc.stat, tc.path)
-			got, err := ioutil.ReadFile(tc.path)
+			got, err := os.ReadFile(tc.path)
 			if err != nil {
 				t.Fatalf("unexpected error reading file: %v", err)
 			}

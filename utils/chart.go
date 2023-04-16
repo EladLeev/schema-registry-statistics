@@ -49,5 +49,5 @@ func GenChart() {
 	if err != nil {
 		panic(err)
 	}
-	page.Render(io.MultiWriter(f))
+	_ = page.Render(io.MultiWriter(f))
 }
