@@ -12,14 +12,8 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/eladleev/schema-registry-statistics/utils"
+	"github.com/fatih/color"
 )
-
-type Consumer struct {
-	ready        chan bool
-	stats        utils.ResultStats
-	config       appConfig
-	consumerLock sync.RWMutex
-}
 
 func main() {
 	cfg := parseFlags()
@@ -91,17 +85,22 @@ func (consumer *Consumer) Setup(sarama.ConsumerGroupSession) error {
 func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 	consumedMessages := consumer.stats.StatMap["TOTAL"]
 	log.Printf("Total messages consumed: %v\n", consumedMessages)
-	for k, v := range consumer.stats.StatMap {
-		if k == "TOTAL" {
-			continue
-		} else if k == "ERROR" {
-			defer log.Printf("Unable to decode schema in %v messages. They might be empty, or do not contains any schema.", v)
-		} else {
-			utils.CalcPercentile(k, v, consumedMessages)
-		}
+	utils.BuildPercentileMap(consumer.stats.StatMap)
+
+	// Print results
+	for k, v := range utils.PercentileMap {
+		c := color.New(color.FgGreen)
+		c.Printf("Schema ID %v => %v%%\n", k, v)
 	}
+
+	// Dump stats to file
 	if consumer.config.store {
 		utils.DumpStats(consumer.stats, consumer.config.path)
+	}
+
+	// Build Charts
+	if consumer.config.chart {
+		utils.GenChart()
 	}
 	return nil
 }

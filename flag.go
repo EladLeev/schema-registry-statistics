@@ -8,18 +8,6 @@ import (
 	"github.com/Shopify/sarama"
 )
 
-type appConfig struct {
-	bootstrapServers, version, group, topic string
-	user, password                          string
-	tls                                     bool
-	caCert                                  string
-	path                                    string
-	limit                                   int
-	oldest                                  bool
-	verbose                                 bool
-	store                                   bool
-}
-
 func parseFlags() appConfig {
 	cfg := appConfig{}
 
@@ -31,14 +19,15 @@ func parseFlags() appConfig {
 	flag.StringVar(&cfg.user, "user", "", "The Kafka username")
 	flag.StringVar(&cfg.password, "password", "", "The Kafka password")
 	flag.StringVar(&cfg.caCert, "cert", "", "The path for the CA certificate")
-	flag.BoolVar(&cfg.oldest, "oldest", true, "Consume from oldest offset")
+	flag.BoolVar(&cfg.oldest, "oldest", true, "Consume from the oldest offset available")
 	flag.BoolVar(&cfg.verbose, "verbose", false, "Switch to verbose logging")
 	flag.BoolVar(&cfg.tls, "tls", false, "Enable TLS connection")
 	flag.IntVar(&cfg.limit, "limit", 0, "Limit consumer to N messages")
 
 	// Tool configuration
 	flag.StringVar(&cfg.path, "path", "/tmp/results.json", "Default file to store the results")
-	flag.BoolVar(&cfg.store, "store", false, "Store results to file for analysis")
+	flag.BoolVar(&cfg.store, "store", false, "Store results on file for analysis")
+	flag.BoolVar(&cfg.chart, "chart", false, "Generate a pie chart from the results")
 
 	flag.Parse()
 
