@@ -7,10 +7,11 @@ Using this tool, you can consume from a topic, while calculating the percentage 
 Table of Contents
 -----------------
 
-- [schema-registry-statistics](#schema-registry-statistics)
+- [Schema-registry-statistics](#schema-registry-statistics)
   - [Table of Contents](#table-of-contents)
   - [Flags](#flags)
   - [Usage](#usage)
+    - [Generate Pie Chart](#generate-pie-chart)
   - [How does it work?](#how-does-it-work)
   - [Local testing](#local-testing)
   - [License](#license)
@@ -45,14 +46,15 @@ For further offsets analysis, you can store the results into a JSON file:
 | `--version`   | The Kafka client version to be used.                                        |            | `string` | "2.1.1"             |
 | `--group`     | The consumer group name.                                                    |            | `string` | schema-stats        |
 | `--user`      | The Kafka username for authentication.                                      |            | `string` | ""                  |
-| `--password`  | The Kafka password for authentication.                                      |            | `string` | ""                  |
+| `--password`  | The Kafka authentication password.                                          |            | `string` | ""                  |
 | `--tls`       | Use TLS communication.                                                      |            | `bool`   | `false`             |
 | `--cert`      | When TLS communication is enabled, specify the path for the CA certificate. | when `tls` | `string` | ""                  |
 | `--store`     | Store results into a file.                                                  |            | `bool`   | `false`             |
+| `--chart`     | Generate pie chart from results.                                            |            | `bool`   | `false`             |
 | `--path`      | If `store` flag is set, the path to store the file.                         |            | `string` | "/tmp/results.json" |
 | `--oldest`    | Consume from oldest offset.                                                 |            | `bool`   | `true`              |
 | `--limit`     | Limit consumer to X messages, if different than 0.                          |            | `int`    | 0                   |
-| `--verbose`   | Raise consumer log level.                                                   |            | `bool`   | `false`             |
+| `--verbose`   | Raise the consumer log level.                                               |            | `bool`   | `false`             |
 
 ## Usage
 ```bash
@@ -60,13 +62,17 @@ For further offsets analysis, you can store the results into a JSON file:
 ```
 Consume from `payments-topic` of `kafka1` and store the results. The consumer will run until `SIGINT` (`CMD + C`) will be used.
 
+### Generate Pie Chart
+By using the `--chart` flag, you can generate an HTML page with a pie chart visualization:
+![Pie Chart Example](static/chart.png) 
+
 ## How does it work?
-According the Kafka [wire format](https://docs.confluent.io/platform/current/schema-registry/serdes-develop/index.html#wire-format), has only a couple of components:
+According to the Kafka [wire format](https://docs.confluent.io/platform/current/schema-registry/serdes-develop/index.html#wire-format), has only a couple of components:
 | Bytes | Area       | Description                                                        |
 | ----- | ---------- | ------------------------------------------------------------------ |
 | 0     | Magic Byte | Confluent serialization format version number; currently always 0. |
-| 1-4   | Schema ID  | 4-byte schema ID as returned by Schema Registry.                   |
-| 5..   | Data       | Serialized data for the specified schema format (Avro, Protobuf).  |
+| 1-4   | Schema ID  | 4-byte schema ID as returned by the Schema Registry.               |
+| 5..   | Data       | Serialized data in the specified schema format (Avro, Protobuf).   |
 
 The tool leverage this format, and reads the binary format of the each message in order to extract the schema ID and store it.
 
