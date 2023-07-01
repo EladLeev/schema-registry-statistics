@@ -1,3 +1,4 @@
+// Package utils provide some common utilities
 package utils
 
 import (
@@ -11,7 +12,7 @@ import (
 	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
-func generatePieItems(stat map[string]float64) []opts.PieData {
+func generatePieItems() []opts.PieData {
 	items := make([]opts.PieData, 0)
 	for k, v := range PercentileMap {
 		items = append(items, opts.PieData{
@@ -30,7 +31,7 @@ func createPieChart() *charts.Pie {
 			Subtitle: fmt.Sprintf("Snapshot: %s", time.Now().Format(time.RFC822)),
 		}),
 	)
-	pie.AddSeries("pie", generatePieItems(PercentileMap)).
+	pie.AddSeries("pie", generatePieItems()).
 		SetSeriesOptions(charts.WithLabelOpts(
 			opts.Label{
 				Show:      true,
@@ -40,6 +41,7 @@ func createPieChart() *charts.Pie {
 	return pie
 }
 
+// GenChart will generate a Pie Chart based on data
 func GenChart() {
 	page := components.NewPage()
 	page.AddCharts(
