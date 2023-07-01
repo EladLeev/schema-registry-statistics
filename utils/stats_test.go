@@ -61,7 +61,7 @@ func TestAppendResult(t *testing.T) {
 		name       string
 		stat       ResultStats
 		offset     int64
-		schemaId   uint32
+		schemaID   uint32
 		wantResult ResultStats
 	}{
 		{
@@ -72,7 +72,7 @@ func TestAppendResult(t *testing.T) {
 				},
 			},
 			offset:   4,
-			schemaId: 1,
+			schemaID: 1,
 			wantResult: ResultStats{
 				ResultStore: map[uint32][]int{
 					1: {1, 2, 3, 4},
@@ -87,7 +87,7 @@ func TestAppendResult(t *testing.T) {
 				},
 			},
 			offset:   8,
-			schemaId: 2,
+			schemaID: 2,
 			wantResult: ResultStats{
 				ResultStore: map[uint32][]int{
 					2: {5, 6, 7, 8},
@@ -102,7 +102,7 @@ func TestAppendResult(t *testing.T) {
 				},
 			},
 			offset:   12,
-			schemaId: 3,
+			schemaID: 3,
 			wantResult: ResultStats{
 				ResultStore: map[uint32][]int{
 					3: {9, 10, 11, 12},
@@ -112,7 +112,7 @@ func TestAppendResult(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			AppendResult(tc.stat, tc.offset, tc.schemaId, &l)
+			AppendResult(tc.stat, tc.offset, tc.schemaID, &l)
 			if !reflect.DeepEqual(tc.stat, tc.wantResult) {
 				t.Errorf("got %+v, want %+v", tc.stat, tc.wantResult)
 			}

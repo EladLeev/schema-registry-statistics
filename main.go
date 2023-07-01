@@ -77,11 +77,13 @@ func main() {
 	}
 }
 
+// Setup is setting up a new CG session
 func (consumer *Consumer) Setup(sarama.ConsumerGroupSession) error {
 	close(consumer.ready)
 	return nil
 }
 
+// Cleanup function to clean after the CG
 func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 	consumedMessages := consumer.stats.StatMap["TOTAL"]
 	log.Printf("Total messages consumed: %v\n", consumedMessages)
@@ -90,7 +92,7 @@ func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 	// Print results
 	for k, v := range utils.PercentileMap {
 		c := color.New(color.FgGreen)
-		c.Printf("Schema ID %v => %v%%\n", k, v)
+		c.Sprintf("Schema ID %v => %v%%\n", k, v)
 	}
 
 	// Dump stats to file
@@ -105,6 +107,7 @@ func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 	return nil
 }
 
+// ConsumeClaim processes Kafka messages from a given topic and partition within a consumer group.
 func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for {
 		select {
@@ -115,10 +118,10 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 				utils.CalcStat(consumer.stats, 4294967295, &consumer.consumerLock)
 				break
 			}
-			schemaId := binary.BigEndian.Uint32(message.Value[1:5])
-			utils.CalcStat(consumer.stats, schemaId, &consumer.consumerLock)
+			schemaID := binary.BigEndian.Uint32(message.Value[1:5])
+			utils.CalcStat(consumer.stats, schemaID, &consumer.consumerLock)
 			if consumer.config.store { // lock map, and build result for analysis
-				utils.AppendResult(consumer.stats, message.Offset, schemaId, &consumer.consumerLock)
+				utils.AppendResult(consumer.stats, message.Offset, schemaID, &consumer.consumerLock)
 			}
 			consumer.consumerLock.RLock()
 			if consumer.stats.StatMap["TOTAL"]%100 == 0 { // I'm still alive :)

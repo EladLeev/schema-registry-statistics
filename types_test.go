@@ -50,7 +50,7 @@ func TestConsumerInitialization(t *testing.T) {
 	assert.Equal(t, config.chart, consumer.config.chart)
 }
 
-func TestConsumerLocking(t *testing.T) {
+func TestConsumerLocking(_ *testing.T) {
 	config := appConfig{
 		bootstrapServers: "localhost:9092",
 		version:          "2.6.0",

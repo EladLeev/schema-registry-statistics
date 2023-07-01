@@ -11,7 +11,12 @@ func TestLoadCert(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create temporary file: %s", err)
 	}
-	defer os.Remove(caCertFile.Name())
+	defer func(name string) {
+		err := os.Remove(name)
+		if err != nil {
+			return
+		}
+	}(caCertFile.Name())
 
 	caCertData := []byte(`
 -----BEGIN CERTIFICATE-----

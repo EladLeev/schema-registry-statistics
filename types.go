@@ -19,6 +19,7 @@ type appConfig struct {
 	chart                                   bool
 }
 
+// Consumer represent a Kafka Consumer
 type Consumer struct {
 	ready        chan bool
 	stats        utils.ResultStats
