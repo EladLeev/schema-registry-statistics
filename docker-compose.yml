@@ -56,7 +56,7 @@ services:
       KAFKA_JMX_HOSTNAME: localhost
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.3.0
+    image: confluentinc/cp-schema-registry:7.4.0
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
