@@ -1,6 +1,8 @@
 # Schema-registry-statistics
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EladLeev/schema-registry-statistics/build.yml?branch=main)
-[![Go Report Card](https://goreportcard.com/badge/github.com/eladleev/schema-registry-statistics)](https://goreportcard.com/report/github.com/eladleev/schema-registry-statistics)  
+[![Go Report Card](https://goreportcard.com/badge/github.com/eladleev/schema-registry-statistics)](https://goreportcard.com/report/github.com/eladleev/schema-registry-statistics)
+[![Renovate](https://img.shields.io/badge/renovate-enabled-%231A1F6C?logo=renovatebot)](https://renovatebot.com)  
+
 Schema Registry Statistics Tool is a small utility that allows you to easily identify the usage of different schema versions within a topic.  
 Using this tool, you can consume from a topic, while calculating the percentage of each schema version.  
 
