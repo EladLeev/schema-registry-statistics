@@ -3,7 +3,7 @@ module github.com/eladleev/schema-registry-statistics
 go 1.19
 
 require (
-	github.com/Shopify/sarama v1.38.1
+	github.com/Shopify/sarama v1.40.1
 	github.com/fatih/color v1.15.0
 	gotest.tools v2.2.0+incompatible
 )
