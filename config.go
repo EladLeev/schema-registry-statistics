@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 )
 
 func loadCert(caFile string) *tls.Config {

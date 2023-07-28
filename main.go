@@ -10,7 +10,7 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 	"github.com/eladleev/schema-registry-statistics/utils"
 	"github.com/fatih/color"
 )

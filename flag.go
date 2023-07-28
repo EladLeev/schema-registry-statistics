@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 )
 
 func parseFlags() appConfig {
