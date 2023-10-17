@@ -3,7 +3,7 @@ module github.com/eladleev/schema-registry-statistics
 go 1.19
 
 require (
-	github.com/IBM/sarama v1.41.2
+	github.com/IBM/sarama v1.41.3
 	github.com/fatih/color v1.15.0
 	gotest.tools v2.2.0+incompatible
 )
@@ -33,7 +33,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
-	golang.org/x/crypto v0.13.0 // indirect
-	golang.org/x/net v0.15.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
 )
