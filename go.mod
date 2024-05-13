@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/IBM/sarama v1.43.2
-	github.com/fatih/color v1.16.0
+	github.com/fatih/color v1.17.0
 	gotest.tools v2.2.0+incompatible
 )
 
