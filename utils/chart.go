@@ -34,7 +34,7 @@ func createPieChart() *charts.Pie {
 	pie.AddSeries("pie", generatePieItems()).
 		SetSeriesOptions(charts.WithLabelOpts(
 			opts.Label{
-				Show:      true,
+				Show:      opts.Bool(true),
 				Formatter: "{b}: {c}%",
 			}),
 		)

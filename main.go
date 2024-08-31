@@ -11,8 +11,9 @@ import (
 	"syscall"
 
 	"github.com/IBM/sarama"
-	"github.com/eladleev/schema-registry-statistics/utils"
 	"github.com/fatih/color"
+
+	"github.com/eladleev/schema-registry-statistics/utils"
 )
 
 func main() {
