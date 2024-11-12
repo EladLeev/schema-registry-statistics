@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/IBM/sarama v1.43.3
-	github.com/fatih/color v1.17.0
+	github.com/fatih/color v1.18.0
 	gotest.tools v2.2.0+incompatible
 )
 
@@ -35,5 +35,5 @@ require (
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	golang.org/x/crypto v0.26.0 // indirect
 	golang.org/x/net v0.28.0 // indirect
-	golang.org/x/sys v0.24.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
 )
