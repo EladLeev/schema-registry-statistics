@@ -2,7 +2,7 @@ module github.com/eladleev/schema-registry-statistics
 
 go 1.23
 
-toolchain go1.23.5
+toolchain go1.24.1
 
 require (
 	github.com/IBM/sarama v1.45.0
