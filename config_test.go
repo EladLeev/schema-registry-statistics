@@ -45,5 +45,4 @@ X/0CIQDKuZwuAQzS1aA90xSgbbVi/TuV7Yj4l4uV7lRGkW8HvA==
 	if !tlsConfig.RootCAs.Equal(x509.NewCertPool()) {
 		t.Error("something is wrong with the RootCAs")
 	}
-
 }

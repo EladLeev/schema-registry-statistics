@@ -39,7 +39,11 @@ func main() {
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
-	client, err := sarama.NewConsumerGroup(strings.Split(cfg.bootstrapServers, ","), cfg.group, config)
+	client, err := sarama.NewConsumerGroup(
+		strings.Split(cfg.bootstrapServers, ","),
+		cfg.group,
+		config,
+	)
 	if err != nil {
 		log.Panicf("Error creating consumer group: %v", err)
 	}
@@ -109,7 +113,10 @@ func (consumer *Consumer) Cleanup(sarama.ConsumerGroupSession) error {
 }
 
 // ConsumeClaim processes Kafka messages from a given topic and partition within a consumer group.
-func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+func (consumer *Consumer) ConsumeClaim(
+	session sarama.ConsumerGroupSession,
+	claim sarama.ConsumerGroupClaim,
+) error {
 	for {
 		select {
 		case message := <-claim.Messages():
