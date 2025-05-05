@@ -12,7 +12,12 @@ func parseFlags() appConfig {
 	cfg := appConfig{}
 
 	// Kafka configuration
-	flag.StringVar(&cfg.bootstrapServers, "bootstrap", "localhost:9092", "The Kafka bootstrap servers, as a comma separated list")
+	flag.StringVar(
+		&cfg.bootstrapServers,
+		"bootstrap",
+		"localhost:9092",
+		"The Kafka bootstrap servers, as a comma separated list",
+	)
 	flag.StringVar(&cfg.group, "group", "schema-stats", "The Kafka consumer group name")
 	flag.StringVar(&cfg.version, "version", "2.1.1", "The Kafka client version")
 	flag.StringVar(&cfg.topic, "topic", "", "The Kafka topic to consume from")
@@ -40,7 +45,9 @@ func parseFlags() appConfig {
 	}
 
 	if cfg.tls && cfg.caCert == "" {
-		log.Fatal("TLS communication was set, but no CA Certificate specified. Please set the --cert flag and try again")
+		log.Fatal(
+			"TLS communication was set, but no CA Certificate specified. Please set the --cert flag and try again",
+		)
 	}
 
 	return cfg
