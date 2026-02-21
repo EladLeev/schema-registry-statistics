@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
       - name: Run Gosec Security Scanner
         uses: securego/gosec@master
         with:
@@ -23,15 +26,16 @@ jobs:
     needs: gosec
     strategy:
       matrix:
-        go-version: [1.23.x]
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
       - name: Install Go
         uses: actions/setup-go@v6
         with:
-          go-version: ${{ matrix.go-version }}
-      - name: Checkout code
-        uses: actions/checkout@v5
+          go-version-file: go.mod
+      - name: Check go mod tidy
+        run: go mod tidy && git diff --exit-code go.mod go.sum
       - name: Test
         run: go test ./...
