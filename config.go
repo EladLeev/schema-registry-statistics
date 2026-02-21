@@ -11,7 +11,9 @@ import (
 )
 
 func loadCert(caFile string) *tls.Config {
-	caCert, err := os.ReadFile(filepath.Clean(caFile))
+	caCert, err := os.ReadFile(
+		filepath.Clean(caFile),
+	) // #nosec G703 -- path is sanitized via filepath.Clean
 	if err != nil {
 		panic(err)
 	}

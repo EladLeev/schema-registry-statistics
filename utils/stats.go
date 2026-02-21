@@ -28,7 +28,10 @@ func BuildPercentileMap(s map[string]int) {
 		if k == "TOTAL" {
 			continue
 		} else if k == "ERROR" {
-			defer log.Printf("Unable to decode schema in %v messages. They might be empty, or do not contains any schema.", v)
+			defer log.Printf(
+				"Unable to decode schema in %v messages. They might be empty, or do not contains any schema.",
+				v,
+			)
 		} else {
 			PercentileMap[k] = calc(v, s["TOTAL"])
 		}
