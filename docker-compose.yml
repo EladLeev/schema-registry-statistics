@@ -12,7 +12,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker_1:
-    image: confluentinc/cp-kafka:7.9.5
+    image: confluentinc/cp-kafka:8.1.1
     hostname: broker1
     container_name: broker1
     depends_on:
@@ -34,7 +34,7 @@ services:
       KAFKA_JMX_HOSTNAME: localhost
 
   broker_2:
-    image: confluentinc/cp-kafka:7.9.5
+    image: confluentinc/cp-kafka:8.1.1
     hostname: broker2
     container_name: broker2
     depends_on:
